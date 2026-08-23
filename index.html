@@ -136,17 +136,24 @@ function loadState(){return JSON.parse(JSON.stringify(PRELOAD));}
 function saveState(){consolidateCache={};}
 const DASHBOARD_API='https://mwbbvkojibbeqfribipu.supabase.co/functions/v1/dashboard';
 const dashboardSession=new URLSearchParams(location.hash.slice(1)).get('session');
-if(!dashboardSession)location.replace(DASHBOARD_API);
+const dashboardSessionExpiry=Number((dashboardSession||'').split('.')[0]);
+function returnToLogin(){location.replace(DASHBOARD_API);}
+if(!dashboardSession||!Number.isSafeInteger(dashboardSessionExpiry)||dashboardSessionExpiry<=Date.now())returnToLogin();
 function dashboardApi(path){
   const base=location.pathname.replace(/\/+$/,'');
   return DASHBOARD_API+path+'?session='+encodeURIComponent(dashboardSession||'');
+}
+async function dashboardFetch(path,options={}){
+  const response=await fetch(dashboardApi(path),options);
+  if(response.status===401){returnToLogin();throw new Error('Dashboard session expired');}
+  return response;
 }
 let liveRevision=null;
 let refreshInFlight=null;
 async function refreshLiveState(){
   if(refreshInFlight)return refreshInFlight;
   refreshInFlight=(async()=>{
-    const response=await fetch(dashboardApi('/data'),{cache:'no-store'});
+    const response=await dashboardFetch('/data',{cache:'no-store'});
     if(!response.ok)throw new Error('Dashboard data request failed: '+response.status);
     const payload=await response.json();
     state=payload.state;
@@ -162,7 +169,7 @@ async function refreshLiveState(){
 async function connectLiveUpdates(){
   for(;;){
     try{
-      const response=await fetch(dashboardApi('/events'),{cache:'no-store'});
+      const response=await dashboardFetch('/events',{cache:'no-store'});
       if(!response.ok)throw new Error('Live stream failed');
       const reader=response.body.getReader();const decoder=new TextDecoder();let buffer='';
       for(;;){
@@ -601,7 +608,7 @@ async function saveFinancials(){
   for(const k of ['deposits','payroll','rent','billing_fee','marketing','emr']){
     const v=parseFloat($('#ef-'+k).value);expenses[k]=isNaN(v)?0:v;
   }
-  const response=await fetch(dashboardApi('/financial'),{
+  const response=await dashboardFetch('/financial',{
     method:'POST',headers:{'content-type':'application/json'},
     body:JSON.stringify({month:m,expenses})
   });
@@ -864,4 +871,3 @@ bootDashboard();
 </script>
 </body>
 </html>
-
