@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Xanthus Practice Analytics — VMG Health</title>
+<meta name="xanthus_frontend_efficiency_live" content="verified">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
@@ -69,7 +70,12 @@ footer span{opacity:.7;}
 [data-tab="data"]{display:none!important}
 .live-indicator{display:inline-flex;align-items:center;gap:6px;margin-left:10px;font-size:11px}
 .live-indicator:before{content:"";width:8px;height:8px;border-radius:50%;background:#7CFC98;box-shadow:0 0 8px #7CFC98}
+.live-indicator.status-loading:before,.live-indicator.status-syncing:before{background:#FFD166;box-shadow:0 0 8px #FFD166}.live-indicator.status-reconnecting:before{background:#FFB347;box-shadow:0 0 8px #FFB347}.live-indicator.status-paused:before{background:#B8C2CC;box-shadow:0 0 8px #B8C2CC}.live-indicator.status-error:before{background:#FF7B7B;box-shadow:0 0 8px #FF7B7B}
+.status-bar{max-width:1536px;margin:16px auto 0;padding:12px 16px;background:white;border:1px solid #E5E7EB;border-left:4px solid var(--med-blue);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:12px}.status-summary,.status-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.status-dot{width:9px;height:9px;border-radius:50%;background:var(--med-blue);box-shadow:0 0 0 4px var(--light-blue)}.status-bar.connected{border-left-color:var(--teal)}.status-bar.connected .status-dot{background:var(--teal);box-shadow:0 0 0 4px var(--light-teal)}.status-bar.syncing,.status-bar.reconnecting{border-left-color:var(--orange)}.status-bar.syncing .status-dot,.status-bar.reconnecting .status-dot{background:var(--orange);box-shadow:0 0 0 4px var(--light-orange)}.status-bar.paused{border-left-color:var(--border)}.status-bar.paused .status-dot{background:#8B98A5;box-shadow:0 0 0 4px var(--gray)}.status-bar.error{border-left-color:var(--red)}.status-bar.error .status-dot{background:var(--red);box-shadow:0 0 0 4px var(--light-red)}.status-meta{color:var(--dark-gray)}.status-meta span+span:before{content:'·';margin-right:10px}.status-action{padding:6px 12px}.status-action:disabled{opacity:.55;cursor:wait}
+.skeleton-card{overflow:hidden;position:relative}.skeleton-card span,.skeleton-card strong,.skeleton-card small{display:block;background:#E8EDF3;border-radius:4px;margin-bottom:10px}.skeleton-card span{width:55%;height:10px}.skeleton-card strong{width:78%;height:26px}.skeleton-card small{width:65%;height:9px}.skeleton-card:after,.is-loading .chart-container:after{content:'';position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);animation:shimmer 1.4s infinite}.is-loading .chart-container canvas{visibility:hidden}.is-loading .chart-container:before{content:'Loading chart…';position:absolute;inset:0;display:grid;place-items:center;color:#7B8794;font-size:13px}.load-error{grid-column:1/-1;background:white;border:1px solid #F3B7B7;border-left:4px solid var(--red);border-radius:8px;padding:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}.load-error span{color:var(--dark-gray);flex:1}.load-error button{margin-left:auto}@keyframes shimmer{100%{transform:translateX(100%)}}@media(max-width:720px){.status-bar{margin:12px 16px 0;align-items:flex-start;flex-direction:column}.status-meta span+span:before{display:none}.status-action{width:100%}}
 </style>
+<meta name="xanthus_release" content="2026-08-23-realtime-v3">
+<meta name="xanthus_realtime_efficiency_live" content="verified">
 </head>
 <body>
 <header><h1>Xanthus Practice Analytics</h1><div class="subtitle">Practice Management Dashboard</div><div class="tagline">Prepared by VMG Health &middot; Live Supabase data <span class="live-indicator">LIVE</span></div></header>
@@ -88,6 +94,10 @@ footer span{opacity:.7;}
 <button class="tab" data-tab="errors">Error Log</button>
 <button class="tab" data-tab="data">Data Management</button>
 </nav>
+<div class="status-bar loading" id="live-status" role="status" aria-live="polite">
+  <div class="status-summary"><span class="status-dot" aria-hidden="true"></span><strong id="live-status-label">Loading live data…</strong></div>
+  <div class="status-meta"><span id="live-status-updated">Connecting to Supabase</span><span id="live-status-revision"></span><button class="status-action" id="live-refresh" onclick="manualRefresh()">Refresh</button></div>
+</div>
 <main>
 <section class="panel active" id="panel-dashboard"><h2>Overview</h2><div id="dashboard-stats" class="stat-grid"></div><div class="chart-grid"><div class="chart-container"><canvas id="chart-monthly-revenue"></canvas></div><div class="chart-container"><canvas id="chart-pc-breakdown"></canvas></div></div><div class="chart-container tall"><canvas id="chart-revenue-vs-cash"></canvas></div></section>
 <section class="panel" id="panel-pc-summary"><h2>PC Revenue &amp; Patient Summary</h2><div class="controls"><label>Month:</label><select id="pc-summary-month"></select></div><div class="notes">Supplement charges consolidate by test type: SWT&rarr;Lane | TCD/VNG/Carotid&rarr;Esplanade | MSK/ANS&rarr;Level | Outcome&rarr;Allegiance | Intl follows its paired test. Pharmacy days: pain consults &amp; pharmacy-day OA &rarr; Max Gilles MD.</div><div id="pc-summary-content"></div></section>
@@ -140,39 +150,156 @@ const dashboardSessionExpiry=Number((dashboardSession||'').split('.')[0]);
 function returnToLogin(){location.replace(DASHBOARD_API);}
 if(!dashboardSession||!Number.isSafeInteger(dashboardSessionExpiry)||dashboardSessionExpiry<=Date.now())returnToLogin();
 function dashboardApi(path){
-  const base=location.pathname.replace(/\/+$/,'');
   return DASHBOARD_API+path+'?session='+encodeURIComponent(dashboardSession||'');
 }
-async function dashboardFetch(path,options={}){
-  const response=await fetch(dashboardApi(path),options);
-  if(response.status===401){returnToLogin();throw new Error('Dashboard session expired');}
-  return response;
+async function dashboardFetch(path,options={},timeoutMs=20000){
+  const controller=timeoutMs>0?new AbortController():null;
+  const timeout=controller?setTimeout(()=>controller.abort(),timeoutMs):null;
+  try{
+    const response=await fetch(dashboardApi(path),controller?{...options,signal:controller.signal}:options);
+    if(response.status===401){returnToLogin();throw new Error('Dashboard session expired');}
+    return response;
+  }finally{if(timeout!==null)clearTimeout(timeout);}
 }
 let liveRevision=null;
+let liveDataEtag=null;
+let pendingRevision=null;
 let refreshInFlight=null;
-async function refreshLiveState(){
+let lastSyncAt=null;
+let liveStatusKind='loading';
+let statusClock=null;
+let reconnectDelay=1000;
+const realtimeClientId=crypto.randomUUID?.()||String(Date.now())+'-'+Math.random().toString(36).slice(2);
+const realtimeChannel='BroadcastChannel' in window?new BroadcastChannel('xanthus-dashboard-live-v3'):null;
+let realtimeStarted=false;
+let realtimeLeader=false;
+let realtimeClock=null;
+let realtimeLockTask=null;
+let realtimeLockRelease=null;
+let liveStreamAbort=null;
+let liveStreamTask=null;
+const CHARTS_BY_PANEL={dashboard:['chart-monthly-revenue','chart-pc-breakdown','chart-revenue-vs-cash'],trend:['chart-trend'],supplement:['chart-supplement'],'test-deep-dive':['chart-test'],financial:['chart-cash-vs-expenses','chart-expense-breakdown']};
+function relativeTime(value){
+  const time=new Date(value).getTime();if(!Number.isFinite(time))return 'unknown';
+  const seconds=Math.max(0,Math.floor((Date.now()-time)/1000));
+  if(seconds<60)return 'just now';if(seconds<3600)return Math.floor(seconds/60)+'m ago';
+  if(seconds<86400)return Math.floor(seconds/3600)+'h ago';
+  return new Date(value).toLocaleString([], {dateStyle:'medium',timeStyle:'short'});
+}
+function updateStatusMeta(){
+  const updated=document.getElementById('live-status-updated');
+  const revision=document.getElementById('live-status-revision');
+  if(updated){updated.textContent=lastSyncAt?'Sheets updated '+relativeTime(lastSyncAt):'Waiting for sync timestamp';updated.title=lastSyncAt?new Date(lastSyncAt).toLocaleString():'';}
+  if(revision)revision.textContent=liveRevision===null?'':('Revision '+liveRevision+' · '+getMonths().length+' months');
+}
+function setLiveStatus(kind,label){
+  liveStatusKind=kind;
+  const bar=document.getElementById('live-status');const text=document.getElementById('live-status-label');const badge=document.querySelector('.live-indicator');
+  if(bar){bar.className='status-bar '+kind;bar.setAttribute('aria-busy',kind==='loading'||kind==='syncing'||kind==='reconnecting'?'true':'false');}if(text)text.textContent=label;
+  if(badge){badge.className='live-indicator status-'+kind;badge.textContent=kind==='connected'?'LIVE':kind==='syncing'?'UPDATING':kind==='reconnecting'?'RECONNECTING':kind==='paused'?'PAUSED':kind==='error'?'ATTENTION':'LOADING';}
+  updateStatusMeta();
+}
+function activePanelName(){return document.querySelector('.tab.active')?.dataset.tab||'dashboard';}
+function releaseInactiveCharts(active){
+  const keep=new Set(CHARTS_BY_PANEL[active]||[]);
+  for(const id of Object.keys(chartInstances))if(!keep.has(id))destroyChart(id);
+}
+function renderLiveView(){const active=activePanelName();releaseInactiveCharts(active);renderPanel(active);}
+function showInitialLoading(){
+  const panel=document.getElementById('panel-dashboard');const stats=document.getElementById('dashboard-stats');
+  if(panel)panel.classList.add('is-loading');
+  if(stats)stats.innerHTML=Array.from({length:6},()=>'<div class="stat-card skeleton-card" aria-hidden="true"><span></span><strong></strong><small></small></div>').join('');
+  setLiveStatus('loading','Loading live data…');
+}
+function showLoadError(){
+  const panel=document.getElementById('panel-dashboard');const stats=document.getElementById('dashboard-stats');
+  if(panel)panel.classList.remove('is-loading');
+  if(stats)stats.innerHTML='<div class="load-error"><strong>Live data could not be loaded.</strong><span>Check your connection or refresh your authenticated session.</span><button onclick="manualRefresh()">Try again</button></div>';
+}
+async function refreshLiveState(manual=false){
   if(refreshInFlight)return refreshInFlight;
   refreshInFlight=(async()=>{
-    const response=await dashboardFetch('/data',{cache:'no-store'});
+    if(manual||liveRevision!==null)setLiveStatus(liveRevision===null?'loading':'syncing',liveRevision===null?'Retrying live data…':manual?'Refreshing dashboard…':'New spreadsheet update detected…');
+    const headers={};if(liveDataEtag)headers['if-none-match']=liveDataEtag;
+    const response=await dashboardFetch('/data',{cache:'no-store',headers});
+    if(response.status===304){pendingRevision=null;setLiveStatus('connected','Dashboard is already current');return false;}
     if(!response.ok)throw new Error('Dashboard data request failed: '+response.status);
     const payload=await response.json();
+    liveDataEtag=response.headers.get('etag')||liveDataEtag;
+    if(liveRevision!==null&&payload.revision===liveRevision){lastSyncAt=payload.state?.meta?.last_synced_at||lastSyncAt;pendingRevision=null;setLiveStatus('connected','Dashboard is already current');return false;}
     state=payload.state;
     liveRevision=payload.revision;
+    pendingRevision=null;
+    lastSyncAt=state.meta?.last_synced_at||null;
     consolidateCache={};
-    renderDashboard();
-    renderData();
-    const active=document.querySelector('.tab.active')?.dataset.tab;
-    if(active&&active!=='dashboard'&&active!=='data')renderPanel(active);
+    renderLiveView();
+    document.getElementById('panel-dashboard')?.classList.remove('is-loading');
+    setLiveStatus('connected','Live data connected');
+    return true;
   })().finally(()=>{refreshInFlight=null;});
   return refreshInFlight;
 }
+async function manualRefresh(){
+  const button=document.getElementById('live-refresh');if(button)button.disabled=true;
+  try{await refreshLiveState(true);startLiveServices();}catch(error){console.warn(error);setLiveStatus('error',liveRevision===null?'Unable to load live data':'Refresh failed · showing previous data');if(liveRevision===null)showLoadError();}
+  finally{if(button)button.disabled=false;}
+}
+function startLiveServices(){
+  startRealtimeCoordinator();
+  if(statusClock===null)statusClock=setInterval(()=>{if(!document.hidden)updateStatusMeta();},60000);
+}
+function abortLiveStream(){if(liveStreamAbort){liveStreamAbort.abort();liveStreamAbort=null;}}
+function releaseRealtimeLeadership(){
+  const wasLeader=realtimeLeader;
+  realtimeLeader=false;abortLiveStream();
+  if(realtimeLockRelease){realtimeLockRelease();realtimeLockRelease=null;}
+  if(wasLeader)realtimeChannel?.postMessage({type:'leader-released',owner:realtimeClientId});
+}
+function startLeaderStream(){
+  if(liveStreamTask)return;
+  liveStreamTask=connectLiveUpdates().finally(()=>{liveStreamTask=null;if(realtimeLeader&&!document.hidden)queueMicrotask(updateRealtimeRole);});
+}
+function updateRealtimeRole(){
+  if(document.hidden){releaseRealtimeLeadership();setLiveStatus('paused','Live updates paused while this tab is hidden');return;}
+  if(!navigator.locks?.request){
+    if(!realtimeLeader){realtimeLeader=true;setLiveStatus('connected','Live updates connected');startLeaderStream();}
+    return;
+  }
+  if(realtimeLeader||realtimeLockTask)return;
+  realtimeLockTask=navigator.locks.request('xanthus-dashboard-live-leader-v3',{mode:'exclusive',ifAvailable:true},async lock=>{
+    if(!lock){if(liveRevision!==null)setLiveStatus('connected','Live updates shared from another tab');return;}
+    if(document.hidden)return;
+    realtimeLeader=true;setLiveStatus('connected','Live updates connected');startLeaderStream();
+    await new Promise(resolve=>{realtimeLockRelease=resolve;});
+  }).catch(error=>{console.warn(error);if(!document.hidden){realtimeLeader=true;startLeaderStream();}})
+    .finally(()=>{realtimeLockTask=null;realtimeLockRelease=null;});
+}
+async function handleLiveRevision(revision){
+  if(!Number.isFinite(revision)||revision===liveRevision){pendingRevision=null;return;}
+  pendingRevision=revision;if(document.hidden)return;
+  try{await refreshLiveState();}catch(error){console.warn(error);setLiveStatus('reconnecting','Reconnecting live updates…');}
+}
+function startRealtimeCoordinator(){
+  if(realtimeStarted)return;
+  realtimeStarted=true;
+  realtimeChannel?.addEventListener('message',event=>{
+    const message=event.data;
+    if(message?.type==='revision'&&message.owner!==realtimeClientId)handleLiveRevision(Number(message.revision));
+    if(message?.type==='leader-released')updateRealtimeRole();
+  });
+  window.addEventListener('pagehide',releaseRealtimeLeadership);
+  realtimeClock=setInterval(updateRealtimeRole,4000);updateRealtimeRole();
+}
 async function connectLiveUpdates(){
-  for(;;){
+  while(realtimeLeader&&!document.hidden){
+    liveStreamAbort=new AbortController();
     try{
-      const response=await dashboardFetch('/events',{cache:'no-store'});
+      const response=await dashboardFetch('/events',{cache:'no-store',signal:liveStreamAbort.signal},0);
       if(!response.ok)throw new Error('Live stream failed');
+      reconnectDelay=1000;
+      setLiveStatus('connected','Live updates connected');
       const reader=response.body.getReader();const decoder=new TextDecoder();let buffer='';
-      for(;;){
+      while(realtimeLeader&&!document.hidden){
         const part=await reader.read();if(part.done)break;
         buffer+=decoder.decode(part.value,{stream:true});
         const events=buffer.split('\n\n');buffer=events.pop()||'';
@@ -180,16 +307,29 @@ async function connectLiveUpdates(){
           const line=event.split('\n').find(x=>x.startsWith('data:'));
           if(!line)continue;
           const message=JSON.parse(line.slice(5));
-          if(message.revision!==liveRevision)await refreshLiveState();
+          realtimeChannel?.postMessage({type:'revision',revision:message.revision,owner:realtimeClientId});
+          await handleLiveRevision(Number(message.revision));
         }
       }
-    }catch(error){console.warn(error);}
-    await new Promise(resolve=>setTimeout(resolve,2000));
+      if(realtimeLeader&&!document.hidden)await new Promise(resolve=>setTimeout(resolve,500));
+    }catch(error){
+      if(error?.name==='AbortError'||!realtimeLeader||document.hidden)return;
+      console.warn(error);if(liveStatusKind!=='error')setLiveStatus('reconnecting','Reconnecting live updates…');
+      await new Promise(resolve=>setTimeout(resolve,reconnectDelay));
+      reconnectDelay=Math.min(reconnectDelay*2,30000);
+    }finally{liveStreamAbort=null;}
   }
 }
+document.addEventListener('visibilitychange',async()=>{
+  if(document.hidden){releaseRealtimeLeadership();setLiveStatus('paused','Live updates paused while this tab is hidden');return;}
+  updateRealtimeRole();
+  try{await refreshLiveState();}catch(error){console.warn(error);setLiveStatus('reconnecting','Reconnecting live updates…');}
+  updateRealtimeRole();
+});
 async function bootDashboard(){
-  try{await refreshLiveState();connectLiveUpdates();}
-  catch(error){document.querySelector('main').innerHTML='<div class="notes error-msg">Unable to load live dashboard data: '+error.message+'</div>';}
+  showInitialLoading();
+  try{await refreshLiveState();startLiveServices();}
+  catch(error){console.warn(error);setLiveStatus('error','Unable to load live data');showLoadError();}
 }
 
 // ═══ FORMATTING ═══
@@ -264,8 +404,8 @@ function getTotalPts(month){return state.months[month].rows.filter(r=>!r.exclude
 $$('.tab').forEach(t=>{t.addEventListener('click',()=>{
   const target=t.dataset.tab;
   $$('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');
-  $$('.panel').forEach(p=>p.classList.remove('active'));$('#panel-'+target).classList.add('active');
-  renderPanel(target);
+  $('.panel').forEach(p=>p.classList.remove('active'));$('#panel-'+target).classList.add('active');
+  releaseInactiveCharts(target);renderPanel(target);
 });});
 function renderPanel(n){({dashboard:renderDashboard,'pc-summary':renderPCSummary,'by-office':renderByOffice,snapshot:renderSnapshot,issues:renderIssues,trend:renderTrend,supplement:renderSupplement,'test-deep-dive':renderTestDeepDive,'office-deep-dive':renderOfficeDeepDive,financial:renderFinancial,profitability:renderProfitability,errors:renderErrors,data:renderData}[n]||(()=>{}))();}
 function destroyChart(id){if(chartInstances[id]){chartInstances[id].destroy();delete chartInstances[id];}}
