@@ -1,3 +1,3 @@
 # Xanthus dashboard host
 
-This repository contains the data-free static shell for the protected Xanthus analytics dashboard. Live data remains in Supabase and requires a short-lived session issued after HTTP Basic authentication.
+Static build of the Xanthus analytics dashboard (Vite + React). Live data comes from the Supabase `dashboard` edge function after HTTP Basic authentication; this repository holds no data. Source and build instructions live in the `eddie` repository under `dashboard/`.
