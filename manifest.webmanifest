@@ -2,6 +2,7 @@
   "name": "Xanthus Practice Analytics",
   "short_name": "Xanthus",
   "description": "Live practice analytics and daily volume alerts",
+  "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

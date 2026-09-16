@@ -1,6 +1,8 @@
 // Xanthus dashboard service worker: receives Web Push alerts and opens the dashboard on click.
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()));
+// A fetch listener is what makes the app installable in older Chrome versions; network-only.
+self.addEventListener("fetch", () => {});
 self.addEventListener("push", (event) => {
   let data = { title: "Xanthus", body: "", url: "./", tag: "xanthus" };
   try { data = { ...data, ...event.data.json() }; } catch { data.body = event.data ? event.data.text() : ""; }
