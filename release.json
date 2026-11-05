@@ -1,7 +1,7 @@
 {
-  "release": "source-pc-20261027-v2",
+  "release": "edits6-resilience-20261105",
   "contract": "edits5-v1",
-  "source_commit": "25f9e5d2e9d1b77b9ab05502bf4bcd40516a6c71",
-  "built_at": "2026-10-28T02:54:51.629873+00:00",
-  "index_sha256": "7ee6f069e5ceecf7a43ba241c48d7e96d45aa799d52130ef9bdbe84b5bba6545"
+  "source_commit": "2624eedfbfa07a1f895bdbb9b9118e8359e7be06",
+  "built_at": "2026-11-05T00:13:14.642033+00:00",
+  "index_sha256": "0e7cf4dceed4f0d787987865012973f8d579957d027e62313012381fbb34adea"
 }
