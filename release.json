@@ -1,7 +1,9 @@
 {
-  "release": "edits6-resilience-20261105",
+  "built_at": "2026-11-05T04:16:15.966003+00:00",
   "contract": "edits5-v1",
-  "source_commit": "2624eedfbfa07a1f895bdbb9b9118e8359e7be06",
-  "built_at": "2026-11-05T00:13:14.642033+00:00",
-  "index_sha256": "0e7cf4dceed4f0d787987865012973f8d579957d027e62313012381fbb34adea"
+  "index_sha256": "41bddfda1ad9d1a0d36b9c404cf8f08943cacdf1d02d972da290ee1cb1b5370d",
+  "qualification": "v19 frontend build and three-role browser PASS; corrected v20 SQL lifecycle PASS",
+  "qualified_manifest_sha256": "0d666b0dc89014dccfdbc00d8f25d3a9eb656d7d586ea84313c12ace6bdfe038",
+  "release": "edits6-required-fact-guidance-20261105",
+  "source_commit": "181352710b76aea3b74eff171b70494d8a1434ff"
 }
