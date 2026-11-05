@@ -1,9 +1,9 @@
 {
-  "built_at": "2026-11-05T04:16:15.966003+00:00",
+  "built_at": "2026-11-05T05:15:40.789234+00:00",
   "contract": "edits5-v1",
-  "index_sha256": "41bddfda1ad9d1a0d36b9c404cf8f08943cacdf1d02d972da290ee1cb1b5370d",
-  "qualification": "v19 frontend build and three-role browser PASS; corrected v20 SQL lifecycle PASS",
-  "qualified_manifest_sha256": "0d666b0dc89014dccfdbc00d8f25d3a9eb656d7d586ea84313c12ace6bdfe038",
-  "release": "edits6-required-fact-guidance-20261105",
-  "source_commit": "181352710b76aea3b74eff171b70494d8a1434ff"
+  "index_sha256": "00b80486a79af327b9d4f6b812575ee87dedd76e9ad7b6527e812b64c14bbcf3",
+  "qualification": "Focused built App/Store no-cache state, transport error, timestamp,304 and year-cache browser PASS; prior business and role gates retained",
+  "qualified_manifest_sha256": "f01a05a00de15e3fbf0f7e142c8ad7904d9f85e165cfe7697ada73daeb56937e",
+  "release": "edits6-empty-report-status-20261105",
+  "source_commit": "b0e222cbe4c3e9daf883663b73da88df6c8c5efc"
 }
