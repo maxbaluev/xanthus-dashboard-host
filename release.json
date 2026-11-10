@@ -1,9 +1,11 @@
 {
-  "built_at": "2026-11-05T05:15:40.789234+00:00",
+  "release": "interface-refinement-20261110",
+  "published_at": "2026-11-10T00:25:31.126Z",
   "contract": "edits5-v1",
-  "index_sha256": "00b80486a79af327b9d4f6b812575ee87dedd76e9ad7b6527e812b64c14bbcf3",
-  "qualification": "Focused built App/Store no-cache state, transport error, timestamp,304 and year-cache browser PASS; prior business and role gates retained",
-  "qualified_manifest_sha256": "f01a05a00de15e3fbf0f7e142c8ad7904d9f85e165cfe7697ada73daeb56937e",
-  "release": "edits6-empty-report-status-20261105",
-  "source_commit": "b0e222cbe4c3e9daf883663b73da88df6c8c5efc"
+  "source_commit": "6591edb6f50fe800ceb02a3852bb273eae3ce024",
+  "index_sha256": "242b94114362c1ce4f06cac7f2d047d07bac5e9599c682f503824fefa3937c04",
+  "qualified_manifest_sha256": "9c536da20b92955848e0b241adadea3529dc6116dda2afd81fc31c582cb8ae57",
+  "review_sha256": "189d9f902a2ad0816fae5c9449344fd58a4c58bca268473af20d0d45b3e00794",
+  "qualification": "TypeScript/Vite build;27 affected tests;16 actual Eddie/Dmitry preview screens and keyboard/loading checks;independent review approved",
+  "previous_host_commit": "7ab9bd212f7a7a472212c36b7a8bfa77a3c1eeff"
 }
