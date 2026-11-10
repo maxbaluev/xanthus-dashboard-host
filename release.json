@@ -1,11 +1,13 @@
 {
-  "release": "interface-refinement-20261110",
-  "published_at": "2026-11-10T00:25:31.126Z",
-  "contract": "edits5-v1",
-  "source_commit": "6591edb6f50fe800ceb02a3852bb273eae3ce024",
-  "index_sha256": "242b94114362c1ce4f06cac7f2d047d07bac5e9599c682f503824fefa3937c04",
-  "qualified_manifest_sha256": "9c536da20b92955848e0b241adadea3529dc6116dda2afd81fc31c582cb8ae57",
-  "review_sha256": "189d9f902a2ad0816fae5c9449344fd58a4c58bca268473af20d0d45b3e00794",
-  "qualification": "TypeScript/Vite build;27 affected tests;16 actual Eddie/Dmitry preview screens and keyboard/loading checks;independent review approved",
-  "previous_host_commit": "7ab9bd212f7a7a472212c36b7a8bfa77a3c1eeff"
+  "version": "2026-11-10-access-recovery",
+  "source_commit": "e3cc52e125d5a2676f86e958fde900316302d2f4",
+  "build_subject_sha256": "19ec1b228e590c704896dda52e270e7875aadd837f9ac3c2e57894d8a5ed1cc3",
+  "review_sha256": "e833fc788e6ee755cf34487a8a97541f7836498cfea7582243da71bb2ecd4ec8",
+  "validation": {
+    "affected_tests": 13,
+    "typescript_vite": "passed",
+    "synthetic_browser_cases": 14,
+    "actual_account_access_cases": 14,
+    "actual_account_test_scope": "Protected Account page; real profile, permissions and authenticated whoami; unrelated freshness stubbed; inactive/error/timeout cases use explicit fixtures."
+  }
 }
