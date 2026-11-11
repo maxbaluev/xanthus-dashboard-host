@@ -1,13 +1,11 @@
 {
-  "version": "2026-11-10-access-recovery",
-  "source_commit": "e3cc52e125d5a2676f86e958fde900316302d2f4",
-  "build_subject_sha256": "19ec1b228e590c704896dda52e270e7875aadd837f9ac3c2e57894d8a5ed1cc3",
-  "review_sha256": "e833fc788e6ee755cf34487a8a97541f7836498cfea7582243da71bb2ecd4ec8",
+  "version": "2026-11-11-cash-year-recovery",
+  "source_commit": "2d97a09c475ac89d84f5f3a05ae57cbe2558fec9",
+  "build_subject_sha256": "cb539bf5d42f2f729c829a2d0b4aea28de6a4e78599336c63f34b987272808e1",
+  "review_sha256": "f3c6892f2b2523efb9de6f0ac780d719f488f478e6b583875c4c3d36863551eb",
   "validation": {
-    "affected_tests": 13,
     "typescript_vite": "passed",
-    "synthetic_browser_cases": 14,
-    "actual_account_access_cases": 14,
-    "actual_account_test_scope": "Protected Account page; real profile, permissions and authenticated whoami; unrelated freshness stubbed; inactive/error/timeout cases use explicit fixtures."
+    "actual_account_scope": "Owner historical cash-year availability, explicit 2025 action and mobile; production APIs and unchanged account permissions.",
+    "promotion_gate": "Concurrent live API checks and candidate browser acceptance must pass before promotion."
   }
 }
