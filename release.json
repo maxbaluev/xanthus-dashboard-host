@@ -1,11 +1,19 @@
 {
-  "version": "2026-11-11-cash-year-recovery",
-  "source_commit": "2d97a09c475ac89d84f5f3a05ae57cbe2558fec9",
-  "build_subject_sha256": "cb539bf5d42f2f729c829a2d0b4aea28de6a4e78599336c63f34b987272808e1",
-  "review_sha256": "f3c6892f2b2523efb9de6f0ac780d719f488f478e6b583875c4c3d36863551eb",
+  "version": "2026-11-15-edits7",
+  "source_commit": "f57a282029911cf0357ad0d52713a9725f876a59",
+  "build_subject_sha256": "a23f8ffbe1ae5dfb6f800bec6448194638aa00db17bf39668fdb2fe487a1fc99",
+  "published_at": "2026-11-15T15:47:39.077065+00:00",
   "validation": {
     "typescript_vite": "passed",
-    "actual_account_scope": "Owner historical cash-year availability, explicit 2025 action and mobile; production APIs and unchanged account permissions.",
-    "promotion_gate": "Concurrent live API checks and candidate browser acceptance must pass before promotion."
-  }
+    "current_contract_sql": "passed",
+    "isolated_roles_browser_exports": "passed",
+    "live_signed_in_roles": "not_checked_no_existing_session_available"
+  },
+  "pending_business_inputs": [
+    "verified_payment_date_source_and_reconciliation",
+    "original_date_backfill_cohort",
+    "sent_delay_expiry_rule",
+    "approved_owner_appearance"
+  ],
+  "payment_date_contract_enabled": false
 }
