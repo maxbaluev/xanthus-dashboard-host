@@ -1,19 +1,19 @@
 {
-  "version": "2026-11-15-edits7",
-  "source_commit": "f57a282029911cf0357ad0d52713a9725f876a59",
-  "build_subject_sha256": "a23f8ffbe1ae5dfb6f800bec6448194638aa00db17bf39668fdb2fe487a1fc99",
-  "published_at": "2026-11-15T15:47:39.077065+00:00",
-  "validation": {
-    "typescript_vite": "passed",
-    "current_contract_sql": "passed",
-    "isolated_roles_browser_exports": "passed",
-    "live_signed_in_roles": "not_checked_no_existing_session_available"
-  },
+  "build_subject_sha256": "702844aa466b636db088811eb7ff98d859432103b5d1dafb1db566565e8b6664",
+  "payment_date_contract_enabled": false,
   "pending_business_inputs": [
     "verified_payment_date_source_and_reconciliation",
-    "original_date_backfill_cohort",
+    "original_date_backfill_cohort_or_explicit_replacement",
     "sent_delay_expiry_rule",
     "approved_owner_appearance"
   ],
-  "payment_date_contract_enabled": false
+  "published_at": "2026-11-16T09:18:11.369583+00:00",
+  "source_commit": "7c5f345525d3a94b2abab010e1e211562bae9a28",
+  "validation": {
+    "focused_browser_transport": "9 checks passed; service traffic intercepted",
+    "focused_database_regression": "20 assertions passed after reproduced before failure",
+    "live_signed_in_roles": "not_checked_no_existing_session_available",
+    "typescript_vite": "passed"
+  },
+  "version": "2026-11-16-edits7-delay-action"
 }
