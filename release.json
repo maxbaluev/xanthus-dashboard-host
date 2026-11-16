@@ -1,19 +1,26 @@
 {
-  "build_subject_sha256": "702844aa466b636db088811eb7ff98d859432103b5d1dafb1db566565e8b6664",
+  "version": "2026-11-16-edits7-response-visit",
+  "source_commit": "95777c5f5b114cc1d18eab181c077d8d91275121",
+  "published_at": "2026-11-16T11:31:19.448864+00:00",
+  "build_subject_sha256": "ba38398e426d477ba93238bedd0116515d77ea4ca45319da514a085f32f01f80",
   "payment_date_contract_enabled": false,
   "pending_business_inputs": [
     "verified_payment_date_source_and_reconciliation",
     "original_date_backfill_cohort_or_explicit_replacement",
     "sent_delay_expiry_rule",
-    "approved_owner_appearance"
+    "approved_owner_appearance",
+    "remaining_pc_history_start_months",
+    "staff_review_choices",
+    "malformed_actual_date_correction"
   ],
-  "published_at": "2026-11-16T09:18:11.369583+00:00",
-  "source_commit": "7c5f345525d3a94b2abab010e1e211562bae9a28",
   "validation": {
-    "focused_browser_transport": "9 checks passed; service traffic intercepted",
-    "focused_database_regression": "20 assertions passed after reproduced before failure",
-    "live_signed_in_roles": "not_checked_no_existing_session_available",
-    "typescript_vite": "passed"
-  },
-  "version": "2026-11-16-edits7-delay-action"
+    "database_regression": "142 assertions passed in private PostgreSQL",
+    "browser_transport": "9 scenarios passed with intercepted service traffic",
+    "browser_payload_database_replay": "8 exact business payloads; 10 checks passed",
+    "visit_concurrency": "4 checks passed",
+    "historical_batch_qualification": "13 checks passed; no production cohort selected",
+    "offline_operator_tests": "5 tests passed",
+    "typescript_vite": "passed",
+    "live_signed_in_roles": "not_checked_no_existing_session_available"
+  }
 }
