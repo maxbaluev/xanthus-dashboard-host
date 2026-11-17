@@ -1,8 +1,8 @@
 {
   "version": "2026-11-16-edits7-owner-dates",
-  "source_commit": "148a9d9af1fd327aae31631554958826f5613ec4",
-  "published_at": "2026-11-17T00:03:28.640661+00:00",
-  "build_subject_sha256": "1c12134c39f42a073ce0c94cd213702cf3af5a663c8563647cfa02468f766d46",
+  "source_commit": "e2369fc05392285bc5f1624642be240a66100088",
+  "published_at": "2026-11-17T00:07:57.343830+00:00",
+  "build_subject_sha256": "4dbedf052c93ded256beabd40861fb365d08cc2a973239072aafbbbedf0161d1",
   "payment_date_contract_enabled": false,
   "date_estimate_batch": {
     "members": 285,
@@ -24,6 +24,7 @@
     "batch_database": "25 private cases passed including capacity and audit adversarial cases",
     "batch_offline": "5 passed",
     "typescript_vite": "passed",
-    "live_signed_in_roles": "not_checked_no_existing_session_available"
+    "live_signed_in_roles": "not_checked_no_existing_session_available",
+    "retired_wc_status": "Old WC review decision filter removed; source predicate and browser checks passed"
   }
 }
