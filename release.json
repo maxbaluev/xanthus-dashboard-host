@@ -1,8 +1,8 @@
 {
-  "version": "2026-11-16-edits7-owner-dates",
-  "source_commit": "e2369fc05392285bc5f1624642be240a66100088",
-  "published_at": "2026-11-17T00:07:57.343830+00:00",
-  "build_subject_sha256": "4dbedf052c93ded256beabd40861fb365d08cc2a973239072aafbbbedf0161d1",
+  "version": "2026-11-16-edits7-ledger-review",
+  "source_commit": "43e2ffbe8d6aa3557fe96beee878d3e34e912051",
+  "published_at": "2026-11-17T00:35:20.952616+00:00",
+  "build_subject_sha256": "8d3e52c022a36da6a08fb85fbefd7e09da18bece2d4a0f27c24f65ee31fa3c54",
   "payment_date_contract_enabled": false,
   "date_estimate_batch": {
     "members": 285,
@@ -20,11 +20,23 @@
   ],
   "validation": {
     "owner_ui": "12 desktop/mobile scenes; 2 Excel exports",
-    "presentation": "12 passed",
+    "presentation": "10 passed",
     "batch_database": "25 private cases passed including capacity and audit adversarial cases",
     "batch_offline": "5 passed",
     "typescript_vite": "passed",
     "live_signed_in_roles": "not_checked_no_existing_session_available",
-    "retired_wc_status": "Old WC review decision filter removed; source predicate and browser checks passed"
+    "retired_wc_status": "Old WC review decision filter removed; source predicate and browser checks passed",
+    "review_roles": "medtrust, emsow, owner: Chromium Save/Apply/retry/stale/full Excel/missing metadata/desktop/mobile checks passed using private synthetic fixtures",
+    "ledger_database": "Existing review suite and legacy review SQL suite passed; all 5 concurrency checks passed",
+    "visual_comparison": "Desktop and mobile final screenshots inspected; no header overlap or vertical clipping"
+  },
+  "ledger_review_migration": {
+    "name": "20261117_01_edits7_legacy_ledger_review.sql",
+    "sha256": "20844423d923907e4a11fad179f2331f723ef5e823aba8e8bc41b3ef30106ca6"
+  },
+  "ledger_review": {
+    "release_order": "new fail-closed UI served before backend migration",
+    "automatic_review_decisions": false,
+    "source_workbooks_read_only": true
   }
 }
