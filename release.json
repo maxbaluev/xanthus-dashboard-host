@@ -1,42 +1,55 @@
 {
-  "version": "2026-11-16-edits7-ledger-review",
-  "source_commit": "43e2ffbe8d6aa3557fe96beee878d3e34e912051",
-  "published_at": "2026-11-17T00:35:20.952616+00:00",
-  "build_subject_sha256": "8d3e52c022a36da6a08fb85fbefd7e09da18bece2d4a0f27c24f65ee31fa3c54",
-  "payment_date_contract_enabled": false,
+  "build_subject_sha256": "9da50553b57d4c82baf9c6f4b4e7fd01210ed83d474de6548e47f4eebd3d5045",
+  "confirmed_date_corrections": {
+    "actual_authority": true,
+    "audit_and_prior_corrections_preserved": true,
+    "records": 1
+  },
   "date_estimate_batch": {
-    "members": 285,
     "filled": 157,
     "held": 128,
+    "members": 285,
     "plan_sha256": "ad8fe181719eb771884551c376b601ed4cff30ff17bb83b1d78c0bfef07bcb8a"
   },
-  "pending_business_inputs": [
-    "verified_payment_date_source_and_reconciliation",
-    "sent_delay_expiry_rule",
-    "remaining_pc_history_start_months",
-    "staff_review_choices",
-    "malformed_actual_date_correction",
-    "mixed_claim_type_source"
-  ],
-  "validation": {
-    "owner_ui": "12 desktop/mobile scenes; 2 Excel exports",
-    "presentation": "10 passed",
-    "batch_database": "25 private cases passed including capacity and audit adversarial cases",
-    "batch_offline": "5 passed",
-    "typescript_vite": "passed",
-    "live_signed_in_roles": "not_checked_no_existing_session_available",
-    "retired_wc_status": "Old WC review decision filter removed; source predicate and browser checks passed",
-    "review_roles": "medtrust, emsow, owner: Chromium Save/Apply/retry/stale/full Excel/missing metadata/desktop/mobile checks passed using private synthetic fixtures",
-    "ledger_database": "Existing review suite and legacy review SQL suite passed; all 5 concurrency checks passed",
-    "visual_comparison": "Desktop and mobile final screenshots inspected; no header overlap or vertical clipping"
+  "date_hold_display": "separate_marker_preserving_workflow_status_and_owner",
+  "delay_documents_wait": {
+    "basis": "actual_send_date",
+    "business_timezone": "America/New_York",
+    "calendar_days": 45,
+    "claim_types": [
+      "NF",
+      "WC"
+    ],
+    "expires_to": "Ready to route"
+  },
+  "ledger_review": {
+    "automatic_review_decisions": false,
+    "release_order": "new fail-closed UI served before backend migration",
+    "source_workbooks_read_only": true
   },
   "ledger_review_migration": {
     "name": "20261117_01_edits7_legacy_ledger_review.sql",
     "sha256": "20844423d923907e4a11fad179f2331f723ef5e823aba8e8bc41b3ef30106ca6"
   },
-  "ledger_review": {
-    "release_order": "new fail-closed UI served before backend migration",
-    "automatic_review_decisions": false,
-    "source_workbooks_read_only": true
-  }
+  "payment_date_contract_enabled": false,
+  "pending_business_inputs": [
+    "verified_payment_date_source_and_reconciliation",
+    "remaining_pc_history_start_months",
+    "staff_review_choices",
+    "mixed_claim_type_source",
+    "disputed_billing_row_identity",
+    "september_source_patient_identity"
+  ],
+  "published_at": "2026-11-17T23:24:58.552346+00:00",
+  "source_commit": "9dec4832c36030998a88d0916db554f6d60a6954",
+  "source_workbooks_read_only": true,
+  "validation": {
+    "clock_ui": "45-day server clock display, New York midnight/focus refresh, rate limit and cleanup passed",
+    "delay_database": "7 SQL regression suites passed; exact final migration rehearsal passed",
+    "financial_preservation": "Confirmed date correction changes only target dates, date evidence and audit metadata; financial facts preserved",
+    "live_signed_in_roles": "not_checked_no_existing_session_available",
+    "owner_ui": "12 desktop/mobile scenes and 2 exports passed",
+    "typescript_vite": "passed"
+  },
+  "version": "2026-11-17-delay-expiry-hold-markers"
 }
