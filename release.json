@@ -1,25 +1,28 @@
 {
-  "version": "2026-11-16-edits7-response-visit",
-  "source_commit": "95777c5f5b114cc1d18eab181c077d8d91275121",
-  "published_at": "2026-11-16T11:31:19.448864+00:00",
-  "build_subject_sha256": "ba38398e426d477ba93238bedd0116515d77ea4ca45319da514a085f32f01f80",
+  "version": "2026-11-16-edits7-owner-dates",
+  "source_commit": "148a9d9af1fd327aae31631554958826f5613ec4",
+  "published_at": "2026-11-17T00:03:28.640661+00:00",
+  "build_subject_sha256": "1c12134c39f42a073ce0c94cd213702cf3af5a663c8563647cfa02468f766d46",
   "payment_date_contract_enabled": false,
+  "date_estimate_batch": {
+    "members": 285,
+    "filled": 157,
+    "held": 128,
+    "plan_sha256": "ad8fe181719eb771884551c376b601ed4cff30ff17bb83b1d78c0bfef07bcb8a"
+  },
   "pending_business_inputs": [
     "verified_payment_date_source_and_reconciliation",
-    "original_date_backfill_cohort_or_explicit_replacement",
     "sent_delay_expiry_rule",
-    "approved_owner_appearance",
     "remaining_pc_history_start_months",
     "staff_review_choices",
-    "malformed_actual_date_correction"
+    "malformed_actual_date_correction",
+    "mixed_claim_type_source"
   ],
   "validation": {
-    "database_regression": "142 assertions passed in private PostgreSQL",
-    "browser_transport": "9 scenarios passed with intercepted service traffic",
-    "browser_payload_database_replay": "8 exact business payloads; 10 checks passed",
-    "visit_concurrency": "4 checks passed",
-    "historical_batch_qualification": "13 checks passed; no production cohort selected",
-    "offline_operator_tests": "5 tests passed",
+    "owner_ui": "12 desktop/mobile scenes; 2 Excel exports",
+    "presentation": "12 passed",
+    "batch_database": "25 private cases passed including capacity and audit adversarial cases",
+    "batch_offline": "5 passed",
     "typescript_vite": "passed",
     "live_signed_in_roles": "not_checked_no_existing_session_available"
   }
