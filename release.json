@@ -1,56 +1,5 @@
 {
-  "build_subject_sha256": "5a5e877cb1910093fd9507de459dda12b0f195a9893700045a34f0b9fc0f489f",
-  "confirmed_date_corrections": {
-    "actual_authority": true,
-    "audit_and_prior_corrections_preserved": true,
-    "records": 1
-  },
-  "date_estimate_batch": {
-    "filled": 157,
-    "held": 128,
-    "members": 285,
-    "plan_sha256": "ad8fe181719eb771884551c376b601ed4cff30ff17bb83b1d78c0bfef07bcb8a"
-  },
-  "date_hold_display": "separate_marker_preserving_workflow_status_and_owner",
-  "delay_documents_wait": {
-    "basis": "actual_send_date",
-    "business_timezone": "America/New_York",
-    "calendar_days": 45,
-    "claim_types": [
-      "NF",
-      "WC"
-    ],
-    "expires_to": "Ready to route"
-  },
-  "ledger_review": {
-    "automatic_review_decisions": false,
-    "release_order": "new fail-closed UI served before backend migration",
-    "source_workbooks_read_only": true
-  },
-  "ledger_review_migration": {
-    "name": "20261117_01_edits7_legacy_ledger_review.sql",
-    "sha256": "20844423d923907e4a11fad179f2331f723ef5e823aba8e8bc41b3ef30106ca6"
-  },
-  "payment_date_contract_enabled": false,
-  "pending_business_inputs": [
-    "verified_payment_date_source_and_reconciliation",
-    "remaining_pc_history_start_months",
-    "staff_review_choices",
-    "mixed_claim_type_source",
-    "disputed_billing_row_identity",
-    "september_source_patient_identity"
-  ],
-  "published_at": "2026-11-20T01:34:37.327543+00:00",
-  "source_commit": "f0a205217e6c47843cc300111158e386450bd9d4",
-  "source_workbooks_read_only": true,
-  "validation": {
-    "clock_ui": "45-day server clock display, New York midnight/focus refresh, rate limit and cleanup passed",
-    "delay_database": "7 SQL regression suites passed; exact final migration rehearsal passed",
-    "financial_preservation": "Confirmed date correction changes only target dates, date evidence and audit metadata; financial facts preserved",
-    "live_signed_in_roles": "Eddie owner and Dmitry emsow: freshness/home/claim reads and response-form access passed; no new production business writes",
-    "owner_ui": "12 desktop/mobile scenes and 2 exports passed",
-    "typescript_vite": "passed",
-    "save_recovery": "17 synthetic browser scenarios passed; zero external requests; older browser search compatibility checked"
-  },
-  "version": "2026-11-20-response-save-recovery"
+  "source_commit": "10e420ceb5e664ac51e1f3723630afa7df789b44",
+  "built_at": "2026-11-20T12:30:32.338937+00:00",
+  "release": "xanthus-nov20-one-slice"
 }
