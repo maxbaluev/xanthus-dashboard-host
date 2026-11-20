@@ -1,5 +1,5 @@
 {
-  "build_subject_sha256": "9da50553b57d4c82baf9c6f4b4e7fd01210ed83d474de6548e47f4eebd3d5045",
+  "build_subject_sha256": "5a5e877cb1910093fd9507de459dda12b0f195a9893700045a34f0b9fc0f489f",
   "confirmed_date_corrections": {
     "actual_authority": true,
     "audit_and_prior_corrections_preserved": true,
@@ -40,16 +40,17 @@
     "disputed_billing_row_identity",
     "september_source_patient_identity"
   ],
-  "published_at": "2026-11-17T23:24:58.552346+00:00",
-  "source_commit": "9dec4832c36030998a88d0916db554f6d60a6954",
+  "published_at": "2026-11-20T01:34:37.327543+00:00",
+  "source_commit": "f0a205217e6c47843cc300111158e386450bd9d4",
   "source_workbooks_read_only": true,
   "validation": {
     "clock_ui": "45-day server clock display, New York midnight/focus refresh, rate limit and cleanup passed",
     "delay_database": "7 SQL regression suites passed; exact final migration rehearsal passed",
     "financial_preservation": "Confirmed date correction changes only target dates, date evidence and audit metadata; financial facts preserved",
-    "live_signed_in_roles": "not_checked_no_existing_session_available",
+    "live_signed_in_roles": "Eddie owner and Dmitry emsow: freshness/home/claim reads and response-form access passed; no new production business writes",
     "owner_ui": "12 desktop/mobile scenes and 2 exports passed",
-    "typescript_vite": "passed"
+    "typescript_vite": "passed",
+    "save_recovery": "17 synthetic browser scenarios passed; zero external requests; older browser search compatibility checked"
   },
-  "version": "2026-11-17-delay-expiry-hold-markers"
+  "version": "2026-11-20-response-save-recovery"
 }
