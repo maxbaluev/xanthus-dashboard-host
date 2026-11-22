@@ -1,5 +1,6 @@
 {
-  "built_at": "2026-11-21T19:47:37+00:00",
-  "source_commit": "6c0b904ff7ffdb7edcfcc598190aea3b5a16e185",
-  "source_tree": "428e6c58503dfb50c8b45ed78b8a17a3d1c9c922"
+  "prepared_at": "2026-11-22T17:26:15.797741+00:00",
+  "release": "Stable team workflows; development frozen",
+  "source_commit": "d1b71907f8e7c6a0a17275d389200d7a50e60098",
+  "source_tree": "14f91afa330b7793a3f468cbf3f970a809fa5bf6"
 }
