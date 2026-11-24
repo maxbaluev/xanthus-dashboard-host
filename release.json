@@ -1,6 +1,5 @@
 {
-  "prepared_at": "2026-11-22T17:26:15.797741+00:00",
-  "release": "Stable team workflows; development frozen",
-  "source_commit": "d1b71907f8e7c6a0a17275d389200d7a50e60098",
-  "source_tree": "14f91afa330b7793a3f468cbf3f970a809fa5bf6"
+  "built_at": "2026-11-24T12:23:45.553958+00:00",
+  "release": "2026-11-24-final-stabilization",
+  "source_commit": "cd1081b922809bae3f084e7609019ebc9c4da936"
 }
