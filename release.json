@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-11-24T12:23:45.553958+00:00",
-  "release": "2026-11-24-final-stabilization",
-  "source_commit": "cd1081b922809bae3f084e7609019ebc9c4da936"
+  "built_at": "2026-11-24T16:31:46.315784+00:00",
+  "release": "2026-11-24-latest-email-review-fix",
+  "source_commit": "80b9071f40557f48752630499495e2b820a79c3d"
 }
