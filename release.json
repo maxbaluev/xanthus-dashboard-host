@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-11-25T18:04:16.026692+00:00",
-  "release": "2026-11-25-session-freshness",
-  "source_commit": "66047864ed8641f382c77c6399acfed6274e9c00"
+  "built_at": "2026-11-25T18:38:33.912500+00:00",
+  "release": "2026-11-25-session-freshness-paged",
+  "source_commit": "9c421abcc2114f516d9583f9ad9e91d7fcb31bef"
 }
